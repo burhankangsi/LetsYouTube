@@ -16,5 +16,5 @@ type AwsStorage struct {
 }
 
 func saveToBucket () {
-	
+	fmt.Println("Save to bucket")
 }
