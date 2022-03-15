@@ -1,20 +1,58 @@
 package bucket_api
 
 import (
-	"fmt"
-	"context"
-	"io"
-	"net/http"
+	"bytes"
 	"log"
+	"net/http"
+	"os"
+
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/S3"
-	"github.com/aws/aws-sdk-go/aws/session"	
+	"github.com/aws/aws-sdk-go/aws/session"
 )
 
-type AwsStorage struct {
+func saveToBucket() {
 
+	ret := retrieve{}
+	buffer := new(bytes.Buffer)
+	buffer.ReadFrom(ret.pipeReader)
+	res := buffer.Bytes()
+
+	// Upload Files
+	err = uploadFile(session, res)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func saveToBucket () {
-	
+func createAWSSession() {
+	session, err := session.NewSession(&aws.Config{Region: aws.String("ap-south-1")})
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func uploadFile(session *session.Session, video []byte) {
+
+	upFile, err := os.Open(video)
+	if err != nil {
+		return err
+	}
+	defer upFile.Close()
+
+	upFileInfo, _ := upFile.Stat()
+	var fileSize int64 = upFileInfo.Size()
+	fileBuffer := make([]byte, fileSize)
+	upFile.Read(fileBuffer)
+
+	_, err = s3.New(session).PutObject(&s3.PutObjectInput{
+		Bucket:               aws.String(AWS_S3_BUCKET),
+		Key:                  aws.String(video),
+		ACL:                  aws.String("private"),
+		Body:                 bytes.NewReader(fileBuffer),
+		ContentLength:        aws.Int64(fileSize),
+		ContentType:          aws.String(http.DetectContentType(fileBuffer)),
+		ContentDisposition:   aws.String("attachment"),
+		ServerSideEncryption: aws.String("AES256"),
+	})
+	return err
 }
