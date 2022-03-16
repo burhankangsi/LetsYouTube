@@ -1,4 +1,4 @@
-package bucket_api
+package flash_api
 
 import (
 	"fmt"
@@ -10,11 +10,3 @@ import (
 	"github.com/aws/aws-sdk-go/service/S3"
 	"github.com/aws/aws-sdk-go/aws/session"	
 )
-
-type AwsStorage struct {
-
-}
-
-func saveToBucket () {
-	fmt.Println("Save to bucket")
-}

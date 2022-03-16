@@ -7,6 +7,12 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type paramMap map[string]string
+
+funv (pm paramMap) fetchValue (key string) string {
+	return pm[key]
+}
+
 func myFunc(w http.ResponseWriter, r *http.Request) {
 	log.info("My Handler")
 }
@@ -37,6 +43,24 @@ func handleRequests() {
 	log.info("Handler called")
 }
 
+func GetVideoObjectHandler(W http.ResponseWriter, R *http.Request) {
+	log.Info("Fetching video...please wait")
+	
+	mapper := (paramMap)(mux.Vars(R))
+	VideoId := mapper.get("videoId")
+	ChannelId := mapper.get("channelid")
+	GetVideoObject(W, R, VideoId, ChannelId)
+}
+
+func initServer() *http.Server {
+	//Creating the routers
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/", myFunc)
+	myRouter.HandleFunc("/{channelId:[0-9]+}/{videoId:[0-9]+}/video.ts", GetVideoObjectHandler).Methods("GET")
+}
+
 func main() {
-	handleRequests()
+	server := initServer()
+	shutdown(server)
+	log.Infof("Application closed")
 }
