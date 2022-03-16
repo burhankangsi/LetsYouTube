@@ -12,11 +12,6 @@ type paramMap map[string]string
 funv (pm paramMap) fetchValue (key string) string {
 	return pm[key]
 }
-
-func myFunc(w http.ResponseWriter, r *http.Request) {
-	log.info("My Handler")
-}
-
 // func createNewArticle(w http.ResponseWriter, r *http.Request) {
 //     // get the body of our POST request
 //     // unmarshal this into a new Article struct
@@ -31,24 +26,21 @@ func myFunc(w http.ResponseWriter, r *http.Request) {
 //     json.NewEncoder(w).Encode(article)
 // }
 
-func handleRequests() {
-
-	// myRouter := mux.NewRouter().StrictSlash(true)
-	// myRouter.HandleFunc("/", myFunc)
-    // myRouter.HandleFunc("/all", returnAllArticles)
-	//myRouter.HandleFunc("/article/{id}", returnSingleArticle)
-	//myRouter.HandleFunc("/article", createNewArticle).Methods("POST")
-
-	http.HandleFunc("/", myFunc)
-	log.info("Handler called")
-}
-
 func GetVideoObjectHandler(W http.ResponseWriter, R *http.Request) {
 	log.Info("Fetching video...please wait")
 	
-	mapper := (paramMap)(mux.Vars(R))
-	VideoId := mapper.get("videoId")
-	ChannelId := mapper.get("channelid")
+	// mapper := (paramMap)(mux.Vars(R))
+	// VideoId := mapper.get("videoId")
+	// ChannelId := mapper.get("channelid")
+	VideoId, ok := vars["videoId"]
+    if !ok {
+        log.Errorf("Video ID is missing in parameters")
+    }
+	ChannelId, ok1 := vars["channelId"]
+	if !ok1 {
+        log.Errorf("Channel ID is missing in parameters")
+    }
+	
 	GetVideoObject(W, R, VideoId, ChannelId)
 }
 
@@ -57,6 +49,7 @@ func initServer() *http.Server {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", myFunc)
 	myRouter.HandleFunc("/{channelId:[0-9]+}/{videoId:[0-9]+}/video.ts", GetVideoObjectHandler).Methods("GET")
+	http.ListenAndServe(":8080", myRouter)
 }
 
 func main() {
