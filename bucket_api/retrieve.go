@@ -84,7 +84,7 @@ func DownlaodVideoFromKafka() {
 	encoder := gob.NewEncoder(pipeWriter)
 
 	go func() {
-		if err := DownloadAndSend(vidReader); err != nil {
+		if err := DecodeAndSend(vidReader); err != nil {
 			log.Infof("Could not download and send video, %v", err)
 		}
 	}

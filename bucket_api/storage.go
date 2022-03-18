@@ -3,7 +3,6 @@ package bucket_api
 import (
 	"bytes"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -44,15 +43,27 @@ func uploadFile(session *session.Session, video []byte) {
 	fileBuffer := make([]byte, fileSize)
 	upFile.Read(fileBuffer)
 
-	_, err = s3.New(session).PutObject(&s3.PutObjectInput{
-		Bucket:               aws.String(AWS_S3_BUCKET),
-		Key:                  aws.String(video),
-		ACL:                  aws.String("private"),
-		Body:                 bytes.NewReader(fileBuffer),
-		ContentLength:        aws.Int64(fileSize),
-		ContentType:          aws.String(http.DetectContentType(fileBuffer)),
-		ContentDisposition:   aws.String("attachment"),
-		ServerSideEncryption: aws.String("AES256"),
+	// _, err = s3.New(session).PutObject(&s3.PutObjectInput{
+	// 	Bucket:               aws.String(AWS_S3_BUCKET),
+	// 	Key:                  aws.String(video),
+	// 	ACL:                  aws.String("private"),
+	// 	Body:                 bytes.NewReader(fileBuffer),
+	// 	ContentLength:        aws.Int64(fileSize),
+	// 	ContentType:          aws.String(http.DetectContentType(fileBuffer)),
+	// 	ContentDisposition:   aws.String("attachment"),
+	// 	ServerSideEncryption: aws.String("AES256"),
+	// })
+	// return err
+
+	uploader := s3manager.NewUploader(session)
+
+	_, err = uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String(AWS_S3_BUCKET), // Bucket to be used
+		Key:    aws.String(video),         // Name of the file to be saved
+		Body:   upFile,                    // File
 	})
-	return err
+	if err != nil {
+		// Do your error handling here
+		return err
+	}
 }
