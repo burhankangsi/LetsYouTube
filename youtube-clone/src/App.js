@@ -6,14 +6,14 @@ import SearchPage from "./SearchPage";
 
 import './App.css';
 import RecommendedVideos from "./RecommendedVideos";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 
 function App() {
   return (
     <div className="app">
       <Router>
         <Header/>
-        <Routes>
+        <Switch>
           <Route path="/search/:searchTerm">            
             <div className="app_page">
               <Sidebar />
@@ -26,7 +26,7 @@ function App() {
               <RecommendedVideos />
             </div>
           </Route>
-        </Routes>
+        </Switch>
       </Router>
     </div>
   );

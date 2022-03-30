@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 import './Header.css';
 
 function Header() {
-  const [inputSearch, setInputSearch] = useState('');
+  const [inputSearch, setInputSearch] = useState("");
   return (
     <div className="header">
       <div className="header_left">
@@ -20,13 +20,11 @@ function Header() {
             src = "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
             alt=""
             />
-
         </Link>
         </div>
 
         <div className="header_input">
           <input onChange={event => setInputSearch(event.target.value)} value={inputSearch} placeholder="Search" type="text"/>
-          <SearchIcon className="header_inputButton"/>
 
         <Link to={`/search/${inputSearch}`}>
           <SearchIcon className="header_inputButton"/>
