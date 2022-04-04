@@ -7,3 +7,5 @@ Authorization — Auth0
 Database — Postgres
 Cloud Hosting — Google App Engine (standard)
 Domain — GoDaddy
+
+It is hosted on https://vocal-starship-53117c.netlify.app/
