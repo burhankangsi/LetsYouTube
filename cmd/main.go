@@ -1,13 +1,23 @@
 package main
 
 import (
-	"fmt",
-	"log",
-	"net/http",
+	"fmt"
+	log "github.com/sirupsen/logrus"
+	"net/http"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/burhankangsi/LetsYouTube/content"
+	"strconv"
+	"math/rand"
+	"github.com/burhankangsi/LetsYouTube/bucket_api"
 )
+
+type File struct {
+	id         string
+	name       string
+	channelId  string
+	length     string
+	uploadDate string
+}
 
 var allFiles []File
 // func createNewArticle(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +40,7 @@ func UploadVideoHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	chanId := params["channelId"]
 	var item File
-	obj = json.NewDecoder(r.Body).Decode(&item)
+	obj := json.NewDecoder(r.Body).Decode(&item)
 	item.id = strconv.Itoa(rand.Intn(1000000))
 
 	allFiles = append(allFiles, item)
@@ -65,14 +75,19 @@ func initUpload() {
 	}
 }
 
+func Demo(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Endpoint created")
+}
+
 func initServer() *http.Server {
 	//Creating the routers
 	myRouter := mux.NewRouter().StrictSlash(true)
-	//myRouter.HandleFunc("/{channelId}/{videoId}/video.ts", myFunc).Methods("GET")
-	myRouter.HandleFunc("/{channelId:[0-9]+}/{videoId:[0-9]+}/video.ts", GetVideoObjectHandler).Methods("GET")
+	myRouter.HandleFunc("/", Demo).Methods("GET")
+	myRouter.HandleFunc("/{channelId}/{videoId}/video.ts", GetVideoObjectHandler).Methods("GET")
+	//myRouter.HandleFunc("/{channelId:[0-9]+}/{videoId:[0-9]+}/video.ts", GetVideoObjectHandler).Methods("GET")
 	myRouter.HandleFunc("/video/{channelId}", UploadVideoHandler).Methods("POST")
 	initUpload()
-	http.ListenAndServe("https://letsyouvid.wordpress.com/", myRouter)
+	http.ListenAndServe("https://vocal-starship-53117c.netlify.app/endpoint", myRouter)
 }
 
 func main() {
