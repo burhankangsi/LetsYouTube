@@ -1,14 +1,15 @@
 package main
 
 import (
-	"fmt"
-	log "github.com/sirupsen/logrus"
-	"net/http"
 	"encoding/json"
-	"github.com/gorilla/mux"
-	"strconv"
+	"fmt"
 	"math/rand"
-	"github.com/burhankangsi/LetsYouTube/bucket_api"
+	"net/http"
+	"strconv"
+
+	"github.com/burhankangsi/LetsYouTube/flash_api"
+	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 )
 
 type File struct {
@@ -20,19 +21,6 @@ type File struct {
 }
 
 var allFiles []File
-// func createNewArticle(w http.ResponseWriter, r *http.Request) {
-//     // get the body of our POST request
-//     // unmarshal this into a new Article struct
-//     // append this to our Articles array.    
-//     reqBody, _ := ioutil.ReadAll(r.Body)
-//     var article Article 
-//     json.Unmarshal(reqBody, &article)
-//     // update our global Articles array to include
-//     // our new Article
-//     Articles = append(Articles, article)
-
-//     json.NewEncoder(w).Encode(article)
-// }
 
 func UploadVideoHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("Fetching video...please wait")
@@ -53,26 +41,20 @@ func GetVideoObjectHandler(W http.ResponseWriter, R *http.Request) {
 	W.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(R)
 	VideoId, ok := params["videoId"]
-    if !ok {
-        log.Errorf("Video ID is missing in parameters")
-    }
+	if !ok {
+		log.Errorf("Video ID is missing in parameters")
+	}
 	ChannelId, ok1 := params["channelId"]
 	if !ok1 {
-        log.Errorf("Channel ID is missing in parameters")
-    }
-	
-	item, err:= GetVideoObject(W, R, VideoId, ChannelId)
+		log.Errorf("Channel ID is missing in parameters")
+	}
+
+	item, err := flash_api.GetVideoObject(W, R, VideoId, ChannelId)
 	if err != nil {
 		log.Fatal("Error in getting the video. Please try again")
 		return
 	}
-	json.NewEncoder(w).Encode(item)
-}
-
-func initUpload() {
-	go func() {
-		saveToBucket()
-	}
+	json.NewEncoder(W).Encode(item)
 }
 
 func Demo(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +68,6 @@ func initServer() *http.Server {
 	myRouter.HandleFunc("/{channelId}/{videoId}/video.ts", GetVideoObjectHandler).Methods("GET")
 	//myRouter.HandleFunc("/{channelId:[0-9]+}/{videoId:[0-9]+}/video.ts", GetVideoObjectHandler).Methods("GET")
 	myRouter.HandleFunc("/video/{channelId}", UploadVideoHandler).Methods("POST")
-	initUpload()
 	http.ListenAndServe("https://vocal-starship-53117c.netlify.app/endpoint", myRouter)
 }
 
