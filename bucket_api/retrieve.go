@@ -23,13 +23,14 @@ import (
 	//"github.com/segmentio/kafka-go"
 )
 
-type kafkaMsg struct {
-	topic      string
-	partition  int
-	key, value []byte
+type KafkaMsg struct {
+	Topic      string
+	Partition  int
+	Key, Value []byte
 	Offset     int
 	Brokers    []string
-	topics     []string
+	Topics     []string
+	ClientId   string
 }
 type retrieve struct {
 	pipeReader *io.PipeReader
@@ -58,7 +59,7 @@ func DecodeAndUpload(reader *bufio.Reader, context context.Context) error {
 				log.Info("DecodeAndSend got an interrupt")
 				break
 			default:
-				msg := kafkaMsg{}
+				msg := KafkaMsg{}
 				err := decoder.Decode(&msg)
 				if err != nil {
 					log.Info("DecodeAndSend Got an error while decoding msg, %v", err)
@@ -87,11 +88,11 @@ func DownlaodVideoFromKafka() {
 
 	context := context.Background()
 
-	kafkaConfig := kafkaMsg{}
+	kafkaConfig := KafkaMsg{}
 	kafkaBrokerUrl := ""
 	brokers := strings.Split(kafkaBrokerUrl, ",")
 	kafkaConfig.Brokers = brokers
-	kafkaConfig.topics = []string{}
+	kafkaConfig.Topics = []string{}
 
 	// kafkaconfig := kafka.ReaderConfig{
 	// 	Brokers:         brokers,
@@ -127,7 +128,7 @@ func DownlaodVideoFromKafka() {
 	// interruptChan := make(chan os.Signal, 1)
 	// signal.Notify(interruptChan, syscall.SIGINT, syscall.SIGTERM)
 	var err error
-	err = consumer.SubscribeTopics(kafkaConfig.topics, nil)
+	err = consumer.SubscribeTopics(kafkaConfig.Topics, nil)
 
 	// for {
 	// 	select {
@@ -163,26 +164,28 @@ func DownlaodVideoFromKafka() {
 	// 	log.Fatal("failed to close reader:", err)
 	// }
 
-	var run bool
-	for run == true {
-		ev := consumer.Poll(0)
-		switch e := ev.(type) {
-		case *kafka.Message:
-			fmt.Printf("%% Message on %s:\n%s\n",
-				e.TopicPartition, string(e.Value))
-			if err = encoder.Encode(e.Value); err != nil {
-				err = fmt.Errorf("Error while encoding with gob: %v", err)
-				break
+	go func() {
+		var run bool
+		for run == true {
+			ev := consumer.Poll(0)
+			switch e := ev.(type) {
+			case *kafka.Message:
+				fmt.Printf("%% Message on %s:\n%s\n",
+					e.TopicPartition, string(e.Value))
+				if err = encoder.Encode(e.Value); err != nil {
+					err = fmt.Errorf("Error while encoding with gob: %v", err)
+					break
+				}
+			case kafka.PartitionEOF:
+				fmt.Printf("%% Reached %v\n", e)
+			case kafka.Error:
+				fmt.Fprintf(os.Stderr, "%% Error: %v\n", e)
+				run = false
+			default:
+				fmt.Printf("Ignored %v\n", e)
 			}
-		case kafka.PartitionEOF:
-			fmt.Printf("%% Reached %v\n", e)
-		case kafka.Error:
-			fmt.Fprintf(os.Stderr, "%% Error: %v\n", e)
-			run = false
-		default:
-			fmt.Printf("Ignored %v\n", e)
 		}
-	}
+	}()
 
 	consumer.Close()
 }
