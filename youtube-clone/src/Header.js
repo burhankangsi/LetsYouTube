@@ -6,10 +6,13 @@ import AppsIcon from "@material-ui/icons/Apps";
 import NotificationIcon from "@material-ui/icons/Notifications";
 import Avatar from "@material-ui/core/Avatar";
 import {Link} from "react-router-dom";
+import axios from 'axios';
 import './Header.css';
+import UploadFile from './UploadFile';
 
 function Header() {
   const [inputSearch, setInputSearch] = useState("");
+  
   return (
     <div className="header">
       <div className="header_left">
@@ -32,7 +35,9 @@ function Header() {
         </div>
 
         <div className="header_icons">
-          <VideoCallIcon className="header_icon"/>
+          <VideoCallIcon className="header_icon" onClick={
+            <UploadFile/>
+          } />
           <AppsIcon className="header_icon"/>
           <NotificationIcon className="header_icon"/>
           <Avatar

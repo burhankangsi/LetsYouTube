@@ -1,15 +1,10 @@
 package content
 
-import {
-	"fmt"
-	"log"
-	"encoding/json"
-}
-
 type File struct {
-	id 		string
-	name	string
-	channelId	string
-	length 		string
-	uploadDate		string
+	Id         string
+	FileName   string
+	ChannelId  string
+	Length     string
+	UploadDate string
+	UploadTime string
 }
