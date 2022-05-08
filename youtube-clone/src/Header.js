@@ -37,7 +37,7 @@ function Header() {
           <NotificationIcon className="header_icon"/>
           <Avatar
               alt="Remy Sharp"
-              src="https://cdn.dribbble.com/users/1044993/screenshots/14392603/media/3af3a23806d49fb4d6585a4eded5ebc6.png?compress=1&resize=1200x900&vertical=top"
+              src="https://logos-world.net/wp-content/uploads/2021/09/Mr-Beast-Logo.png"
         />
         </div>
     </div>
