@@ -3,7 +3,7 @@ import './VideoRow.css'
 import axios from 'axios';
 import { useState } from 'react';
 
-function VideoRow({views, subs, description, timestamp, channel, title, image}) {
+function VideoRow({views, subs, description, timestamp, channel, title, image, channelImage}) {
 //  const [video] = useState('')
   const getVideo = () => {
     axios.get('localhost:8000/{channelId}/{videoId}/video.ts')
@@ -19,7 +19,7 @@ function VideoRow({views, subs, description, timestamp, channel, title, image}) 
         <div className="videoRow_text">
             <h3> {title} </h3>
             <p className="videoRow_headline">
-                {channel} . {" "} 
+                {channelImage} {channel} . {" "} 
                 <span className="videoRow_subs">
                     <span className="videoRow_subsNumber"> {subs} </span> Subscribers
                 </span>{" "}

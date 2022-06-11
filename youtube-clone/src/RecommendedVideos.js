@@ -1,13 +1,68 @@
 import React from 'react'
 import "./RecommendedVideos.css";
 import VideoCard from './VideoCard';
+import axios from 'axios';
+
+const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
 
 function RecommendedVideos() {
+  const [post, setPost] = React.useState([]);
+  let cards = []
+  
+  React.useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      setPost(response.data);
+      for (var i = 0; i < response.data.length; i++) {
+        const item = {
+          id: response.data[i].videoID,
+          name: response.data[i].videoName,
+          duration: response.data[i].duration,
+          channelid:  response.data[i].channelID,
+          title:    response.data[i].title,
+          chanImage:  response.data[i].channelImage,
+          views:  response.data[i].views,
+          timestamp: response.data[i].timestamp,
+          chanName: response.data[i].channelName,
+          date:   response.data[i].uploadDate,
+          time:   response.data[i].uploadTime,
+          thumbnail:  response.data[i].thumbnail,
+        };
+        cards.push(item);
+      }
+      
+    });
+  }, 
+  []);
+
+  if (!post) return null;
+
   return (
     <div className="recommendedVideos">
       <h2>Recommended</h2>
       <div className="recommendedVideos_videos">
+
+      {post.map((card) => {
+       return (
+          // <div className="post-card" key={card.id}>
+          //    <h2 className="post-title">{card.title}</h2>
+          //    <p className="post-body">{card.body}</p>
+          //    <div className="button">
+          //       <div className="delete-btn">Delete</div>
+          //    </div>
+          // </div>
+
         <VideoCard
+        title={card.title}
+        views={card.views}
+        timestamp={card.timestamp}
+        channelImage={card.channelImage}
+        channel={card.channelName}
+        image={card.thumbnail}
+        />
+       );
+    })}
+                
+        {/* <VideoCard
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
@@ -102,7 +157,7 @@ function RecommendedVideos() {
         channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
         channel="UI Ninja"
         image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
-        />
+        /> */}
       </div>
     </div>
   )
