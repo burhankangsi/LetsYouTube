@@ -3,7 +3,7 @@ import "./Subscription.css";
 import VideoCard from './VideoCard';
 import axios from 'axios';
 
-const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
+const baseURL = "https://flash-api.herokuapp.com/feed/subscriptions/{channelId}";
 
 function SubscriptionVideos() {
   const [post, setPost] = React.useState([]);

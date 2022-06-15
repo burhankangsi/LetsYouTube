@@ -3,7 +3,7 @@ import "./Playlist.css";
 import VideoCard from './VideoCard';
 import axios from 'axios';
 
-const baseURL = "https://jsonplaceholder.typicode.com/posts/1";
+const baseURL = "https://flash-api.herokuapp.com/feed/playlist/{channelId}/{playlistId}";
 
 function PlayListVideos() {
   const [post, setPost] = React.useState([]);
