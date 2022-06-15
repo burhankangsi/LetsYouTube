@@ -66,9 +66,9 @@ function RecommendedVideos() {
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://www.thefamouspeople.com/profiles/images/alan-walker-3.jpg"
         channel="UI Ninja"
-        image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
+        image="https://faithmag.com/sites/default/files/styles/article_full/public/2021-08/titanic.jpg?h=5cc6d756&itok=qujOhbLw"
         />
         <VideoCard
         title="How to learn coding from scratch"
@@ -98,25 +98,25 @@ function RecommendedVideos() {
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://a.espncdn.com/photo/2018/0917/r432464_1600x800cc.jpg"
         channel="UI Ninja"
-        image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
+        image="https://faithmag.com/sites/default/files/styles/article_full/public/2021-08/titanic.jpg?h=5cc6d756&itok=qujOhbLw"
         />
         <VideoCard
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://a.espncdn.com/photo/2018/0917/r432464_1600x800cc.jpg"
         channel="UI Ninja"
-        image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
+        image="https://faithmag.com/sites/default/files/styles/article_full/public/2021-08/titanic.jpg?h=5cc6d756&itok=qujOhbLw"
         />
         <VideoCard
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://media.sketchfab.com/models/ffb798fdd2674e6fa17d812b78708064/thumbnails/c3282f5e669c4c5b839f1e1357039883/blob.jpeg"
         channel="UI Ninja"
-        image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
+        image="https://faithmag.com/sites/default/files/styles/article_full/public/2021-08/titanic.jpg?h=5cc6d756&itok=qujOhbLw"
         />
         <VideoCard
         title="How to learn coding from scratch"
@@ -146,15 +146,15 @@ function RecommendedVideos() {
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2016/10/doctor-strange-movie-composer-cumberbatch.jpg"
         channel="UI Ninja"
-        image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
+        image="https://faithmag.com/sites/default/files/styles/article_full/public/2021-08/titanic.jpg?h=5cc6d756&itok=qujOhbLw"
         />
         <VideoCard
         title="Become a UI developer in 10 days"
         views="1.4M Views"
         timestamp="3 days ago"
-        channelImage="https://cdn4.vectorstock.com/i/1000x1000/20/78/ninja-sport-mascot-logo-design-vector-26472078.jpg"
+        channelImage="https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2016/10/doctor-strange-movie-composer-cumberbatch.jpg"
         channel="UI Ninja"
         image="https://www.learntek.org/wp-content/uploads/2017/09/UI-DEVeloper-1.jpg"
         /> */}
